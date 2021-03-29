@@ -6,11 +6,20 @@ namespace PrimeService
 {
     public class Check
     {
-        public List<Product> products;
-        public int totalCost;
+        private List<Product> products = new List<Product>();
         public int GetTotalCost()
         {
+            int totalCost = 0;
+            foreach(var product in products)
+            {
+                totalCost += product.price;
+            }
             return totalCost;
+        }
+
+        internal void AddProduct(Product product)
+        {
+            products.Add(product);
         }
     }
 }
