@@ -31,7 +31,20 @@ namespace PrimeService
 
         internal void AddPoints(int points)
         {
-            this.points = points;
+            this.points += points;
+        }
+
+        internal int GetCostByCategory(Category category)
+        {
+            int totalCost = 0;
+            foreach(var product in products)
+            {
+                if (product.category == category)
+                {
+                totalCost += product.price ;
+                }
+            }
+            return totalCost;
         }
     }
 }

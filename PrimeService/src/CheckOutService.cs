@@ -29,11 +29,19 @@ namespace PrimeService
 
         public void UseOffer(AnyGoodsOffer offer)
         {
-            if (offer.totalCost <= check.GetTotalCost())
+            if (offer.GetType() == (typeof(FactorByCategoryOffer)))
             {
-                
+                FactorByCategoryOffer fbOffer = (FactorByCategoryOffer)offer;
+                int points = check.GetCostByCategory(fbOffer.category);
+                check.AddPoints(points * (fbOffer.factor - 1));
             }
-            check.AddPoints(offer.points);
+            else
+            {
+                if (offer.totalCost <= check.GetTotalCost())
+                {
+                    check.AddPoints(offer.points);   
+                }
+            }
         }
     }
 }

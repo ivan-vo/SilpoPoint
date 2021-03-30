@@ -6,8 +6,15 @@ namespace PrimeService
 {
     public class Product
     {
-        public readonly int price;
-        public readonly string name;
+        internal readonly int price;
+        internal readonly string name;
+        public Category category;
+        public Product(int price, string name, Category category)
+        {
+            this.price = price;
+            this.name = name;
+            this.category = category;
+        }
         public Product(int price, string name)
         {
             this.price = price;

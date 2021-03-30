@@ -14,7 +14,7 @@ namespace PrimeService.Tests
             checkoutService = new CheckoutService();
             checkoutService.OpenCheck();
 
-            milk_7 = new Product(7, "Milk");
+            milk_7 = new Product(7, "Milk", Category.MILK);
             bread_3 = new Product(3, "Bred");
         }
 
@@ -83,6 +83,19 @@ namespace PrimeService.Tests
             Check check = checkoutService.CloseCheck();
 
             Assert.Equal(check.GetTotalPoints(), 3);
+        }
+
+        [Fact]
+        public void UseOffer__FactorByCategory()
+        {
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(bread_3);
+
+            checkoutService.UseOffer(new FactorByCategoryOffer(Category.MILK, 2));
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 31);
         }
     }
 }
