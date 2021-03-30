@@ -7,10 +7,12 @@ namespace PrimeService
     public class Check
     {
         private List<Product> products = new List<Product>();
+        private int points = 0;
+
         public int GetTotalCost()
         {
             int totalCost = 0;
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 totalCost += product.price;
             }
@@ -24,7 +26,12 @@ namespace PrimeService
 
         public int GetTotalPoints()
         {
-            return GetTotalCost();
+            return GetTotalCost() + points;
+        }
+
+        internal void AddPoints(int points)
+        {
+            this.points = points;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using PrimeService;
 using System.Collections.Generic;
+using PrimeService.Tests;
 
 namespace PrimeService
 {
@@ -24,6 +25,15 @@ namespace PrimeService
             Check closedCheck = check;
             check = null;
             return closedCheck;
+        }
+
+        public void UseOffer(AnyGoodsOffer offer)
+        {
+            if (offer.totalCost <= check.GetTotalCost())
+            {
+                
+            }
+            check.AddPoints(offer.points);
         }
     }
 }
