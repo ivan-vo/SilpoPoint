@@ -68,7 +68,7 @@ namespace PrimeService.Tests
             checkoutService.AddProduct(milk_7);
             checkoutService.AddProduct(bread_3);
 
-            checkoutService.UseOffer(new AnyGoodsOffer(6, 2));
+            checkoutService.UseOffer(new AnyGoodsOffer(6, 2, DateTime.Today));
             Check check = checkoutService.CloseCheck();
 
             Assert.Equal(check.GetTotalPoints(), 12);
@@ -79,7 +79,7 @@ namespace PrimeService.Tests
         {
             checkoutService.AddProduct(bread_3);
 
-            checkoutService.UseOffer(new AnyGoodsOffer(6, 2));
+            checkoutService.UseOffer(new AnyGoodsOffer(6, 2, DateTime.Today));
             Check check = checkoutService.CloseCheck();
 
             Assert.Equal(check.GetTotalPoints(), 3);
@@ -92,10 +92,73 @@ namespace PrimeService.Tests
             checkoutService.AddProduct(milk_7);
             checkoutService.AddProduct(bread_3);
 
-            checkoutService.UseOffer(new FactorByCategoryOffer(Category.MILK, 2));
+            checkoutService.UseOffer(new FactorByCategoryOffer(Category.MILK, 2, DateTime.Today));
             Check check = checkoutService.CloseCheck();
 
             Assert.Equal(check.GetTotalPoints(), 31);
+        }
+
+        [Fact]
+        public void UseOffer__FactorByCategory__WhenOfferDateIsValid()
+        {
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(bread_3);
+
+            checkoutService.UseOffer(new FactorByCategoryOffer(Category.MILK, 2, DateTime.Today));
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 31);
+        }
+        [Fact]
+        public void UseOffer__FactorByCategory__WhenOfferDateIsNOTValid()
+        {
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(bread_3);
+
+            checkoutService.UseOffer(new FactorByCategoryOffer(Category.MILK, 2, DateTime.Today.AddDays(-1)));
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 17);
+        }
+
+        [Fact]
+        public void UseOffer__AnyGoodsOffer__WhenOfferDateIsValid()
+        {
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(bread_3);
+
+            checkoutService.UseOffer(new AnyGoodsOffer(15, 2, DateTime.Today));
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 19);
+        }
+
+        [Fact]
+        public void UseOffer__AnyGoodsOffer__WhenOfferDateIsNOTValid()
+        {
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(milk_7);
+            checkoutService.AddProduct(bread_3);
+
+            checkoutService.UseOffer(new AnyGoodsOffer(15, 2, DateTime.Today.AddDays(-1)));
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 17);
+        }
+        [Fact]
+        public void UseAnyGoodsOffer__BeforCheckIsClosed__DateIsValid()
+        {
+            checkoutService.UseOffer(new AnyGoodsOffer(9, 2, DateTime.Today));
+            checkoutService.AddProduct(milk_7);
+            checkoutService.UseOffer(new AnyGoodsOffer(5, 2, DateTime.Today));
+            checkoutService.AddProduct(bread_3);
+
+            Check check = checkoutService.CloseCheck();
+
+            Assert.Equal(check.GetTotalPoints(), 12);
         }
     }
 }

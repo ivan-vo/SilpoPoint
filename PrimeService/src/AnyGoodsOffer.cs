@@ -1,4 +1,6 @@
 using PrimeService;
+using System;
+
 namespace PrimeService.Tests
 {
     public class AnyGoodsOffer : Offer
@@ -11,11 +13,17 @@ namespace PrimeService.Tests
             this.totalCost = totalCost;
             this.points = points;
         }
+        public AnyGoodsOffer(int totalCost, int points, DateTime offerDate)
+        {
+            this.totalCost = totalCost;
+            this.points = points;
+            this.offerDate = offerDate;
+        }
         public override void Apply(Check check)
         {
             if(totalCost <= check.GetTotalCost())
             {
-                check.AddPoints(points);
+                AddPoints(check,points);
             }
         }
     }

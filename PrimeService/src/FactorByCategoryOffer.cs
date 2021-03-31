@@ -1,3 +1,4 @@
+using System;
 namespace PrimeService.Tests
 {
     public class FactorByCategoryOffer : Offer
@@ -10,10 +11,16 @@ namespace PrimeService.Tests
             this.category = category;
             this.factor = factor;
         }
+        public FactorByCategoryOffer(Category category, int factor, DateTime offerDate)
+        {
+            this.category = category;
+            this.factor = factor;
+            this.offerDate = offerDate;
+        }
         public override void Apply(Check check)
         {
             int points = check.GetCostByCategory(category);
-            check.AddPoints(points * (factor - 1));
+            AddPoints(check, points * (factor - 1));
         }
     }
 }
